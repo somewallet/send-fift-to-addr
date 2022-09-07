@@ -1,0 +1,22 @@
+#!/usr/bin/fift -s
+"TonUtil.fif" include
+"Asm.fif" include
+
+<{ $1 include PUSHREF }>s =: msg_body
+
+$2 parse-smc-addr drop 2=: dest_addr // parse dest_addr
+
+<b
+
+  b{1000} s, 
+  dest_addr Addr, 
+  0 Gram,
+  b{00} s,
+  msg_body s,
+
+b>
+
+dup ."External message for initialization is " <s csr. cr
+2 boc+>B dup Bx. cr
+
+"./build/boc/external_message.boc" tuck B>file
